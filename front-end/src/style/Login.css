@@ -1,0 +1,9 @@
+#loginContainer{
+    width: fit-content;
+    height: fit-content;
+    background-color: aliceblue;
+}
+
+.loginInputs{
+    margin: 25px 50px 25px;
+}
