@@ -1,9 +1,99 @@
+#root{
+    width: 45vw;
+    margin:auto;
+}
+
 #loginContainer{
-    width: fit-content;
     height: fit-content;
-    background-color: aliceblue;
+    text-align: center;
+    display: inline-block;
+    margin: auto;
+    border: 1px solid black;
+}
+
+#loginTitle{
+    width: 75%;
+    margin: auto;
+    margin-top: 1em;
+    font-size: 25px;
+    font-family: 'Silkscreen';
 }
 
 .loginInputs{
-    margin: 25px 50px 25px;
+    width: 30em;
+    height: 3em;
+    margin: 0em 2em 0em 2em;
+    margin-bottom: 1em;
+    font-size: 16px;
+    font-family: 'Silkscreen';
+}
+
+#usernameInput{
+    margin-top: 2em;
+}
+
+#loginButtonDiv{
+    justify-content: center;
+    height: 50%;
+}
+
+#loginButton{
+    width: 20em;
+    height: 30%;
+    margin: auto;
+    background-color: #004386;
+    justify-content: space-evenly;
+    border-radius: 10px;
+}
+
+#loginButton:hover{
+    background-color: #01305e;
+    cursor: pointer;
+}
+
+#loginButtonTitle{
+    padding: 6%;
+    color: white;
+    margin: auto;
+    user-select: none;
+    font-family: 'Silkscreen';
+}
+
+.redirectLink{
+    text-decoration: none;
+    width: fit-content;
+    margin: auto;
+    border-bottom: 1px dotted black;
+    font-family: 'Silkscreen';
+}
+
+.redirectLink:hover{
+    text-decoration: underline;
+}
+
+#recoverRedirect{
+    padding: 1em 0em 1em 0em;
+    display: block;
+    user-select: none;
+}
+
+#registerRedirectDiv{
+    width: 15em;
+    height: 3em;
+    margin: auto;
+    margin-top: 1.5em;
+    margin-bottom: 1.5em;
+    background-color: 	#3FFF00;
+    user-select: none;
+    border-radius: 10px;
+}
+
+#registerRedirectDiv:hover{
+    background-color: #35c406;
+    cursor: pointer;
+}
+
+#registerTitle{
+    padding: 0.8em 0em 0em 0em;
+    font-family: 'Silkscreen';
 }
