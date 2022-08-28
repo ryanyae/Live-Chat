@@ -1,0 +1,93 @@
+#registerContainer{
+    border: 3px solid black;
+    height: fit-content;
+}
+
+#registerContainerTitle{
+    width: 75%;
+    margin: auto;
+    margin-top: .5em;
+    font-size: 25px;
+    font-family: 'Silkscreen';
+    padding-bottom: .6em;
+    border-bottom: 1px solid black;
+    user-select: none;
+}
+
+.infoInput{
+    width: 68%;
+    height: 3em;
+    margin: 0em 2em 0em 2em;
+    margin-bottom: 1em;
+    font-size: 16px;
+}
+
+#newFirstName, #newLastName{
+    width: 30%;
+    display: inline-block;
+    margin: auto;
+    margin: 1.5em 0em 1em 0em;
+}
+
+#newFirstName{
+    margin-right: 3.5%;
+}
+
+#newLastName{
+    margin-left: 3.5%;
+}
+
+#registerButton{
+    background-color: #3FFF00;
+    width: 12em;
+    height: 2.5em;
+    margin: auto;
+    margin-bottom: .75em;
+}
+
+#registerButton:hover{
+    background-color: #35c406;
+    cursor: pointer;
+}
+
+#registerButtonTitle{
+    font-family: 'Silkscreen';
+    padding: .5em;
+    user-select: none;
+}
+
+.inputTitle{
+    font-family: 'Silkscreen';
+    text-align: left;
+    margin-left: 17%;
+    user-select: none;
+}
+
+#birthdayDiv, #genderDiv{
+    display: inline-block;
+    width: 31.25%;
+    margin: auto;
+}
+
+.customSelect{
+    width: 100%;
+    margin-right: 0%;
+    margin-left: 0%;
+}
+
+#birthdayDiv{
+    margin-right: 7%;
+}
+
+#newBirthday{
+    display: flex;
+    width: 100%;
+    margin: 0 0 0 0;
+    margin-right: 19%;
+}
+
+#genderOptions{
+    width: 100%;
+    margin-right: 0%;
+    margin-left: 0;
+}
