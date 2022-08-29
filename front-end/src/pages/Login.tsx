@@ -3,8 +3,8 @@ import React from 'react'
 
 export default function Login() {
 
-    var usernameRef = React.useRef<HTMLInputElement>(null)
-    var passwordRef = React.useRef<HTMLInputElement>(null)
+    var usernameRef:any = React.useRef<HTMLInputElement>(null)
+    var passwordRef:any = React.useRef<HTMLInputElement>(null)
 
     return(
         <>
@@ -21,6 +21,7 @@ export default function Login() {
                     <Link to='/recover' id='recoverRedirect' className='redirectLink'>Forgot Password?</Link>
                     <div id="registerRedirectDiv" onClick={() => {
                         window.location.href="http://localhost:3000/register"
+                        console.log(usernameRef.current.value + passwordRef.current.value)
                     }}>
                         <div id="registerTitle">
                             Make Account

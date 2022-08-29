@@ -91,3 +91,8 @@
     margin-right: 0%;
     margin-left: 0;
 }
+
+#loginRedirect{
+    margin-bottom: 1.2em;
+    border-bottom: none;
+}
