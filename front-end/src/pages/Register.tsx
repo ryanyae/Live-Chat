@@ -10,6 +10,10 @@ export default function Register() {
     var newPasswordRef:any = React.useRef<HTMLInputElement>(null)
     var newBirthdayRef:any = React.useRef<HTMLInputElement>(null)
     var newGenderRef:any = React.useRef<HTMLSelectElement>(null!)
+
+    var infoVerify  = () => {
+        
+    }
     
     return(
         <>
@@ -40,7 +44,7 @@ export default function Register() {
                     </div>
                 </div>
                 <div id="registerButton">
-                    <div id='registerButtonTitle'>
+                    <div id='registerButtonTitle' onClick={infoVerify}>
                         Register
                     </div>
                 </div>
