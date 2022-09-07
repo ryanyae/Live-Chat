@@ -2,17 +2,17 @@
   "name": "back-end",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": "server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server.js"
+    "start": "nodemon server.ts"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "apollo-boost": "^0.4.9",
+    "graphql-tag": "^2.12.6",
     "mysql2": "^2.3.3",
-    "sequelize": "^6.21.4",
-    "sequelize-cli": "^6.4.1"
+    "sequelize": "^6.21.4"
   }
 }
