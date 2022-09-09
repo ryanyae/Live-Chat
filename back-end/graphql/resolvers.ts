@@ -1,5 +1,4 @@
 import { UserInputError } from "apollo-server"
-import e from "cors"
 
 const { User } = require("../models")
 
@@ -76,17 +75,20 @@ module.exports = {
                 return newUser
 
             } catch (err:any) {
-            // TODO check if the inputs are empty
+            // check if the inputs are empty
             // - checking if username of email already exist
             // - check if the user is even old enough to use the application
 
                 if (err.name === 'SequelizeUniqueConstraintError') {
                     err.errors.forEach((element:any) => {
-                        console.log(element.path)
+                    // creating message of errors for anything inside the errors object
+                        // handles only one error at a time because the try catch will throw when seeing the first sequelize duplicate error
+                        console.log(typeof element)
                         errors[element.path as keyof typeof errors] = `${element.path} is already taken`
                     });
                 }
-
+                
+                // throws a new error with appropriate errors
                 throw new UserInputError('Bad Input', {errors})
             }
         }
