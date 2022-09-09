@@ -24,6 +24,26 @@ module.exports = {
         unique: false,
         allowNull: false,
       },
+      firstName: {
+        type: Sequelize.STRING,
+        unique: false,
+        allowNull: false,
+      },
+      lastName: {
+        type: Sequelize.STRING,
+        unique: false,
+        allowNull: false,
+      },
+      birthday: {
+        type: Sequelize.DATE,
+        unique: false,
+        allowNull: false,
+      },
+      gender: {
+        type: Sequelize.STRING,
+        unique: false,
+        allowNull: false,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
