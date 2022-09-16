@@ -13,6 +13,7 @@
     "apollo-boost": "^0.4.9",
     "bcrypt": "^5.0.1",
     "graphql-tag": "^2.12.6",
+    "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.21.4"
   }
