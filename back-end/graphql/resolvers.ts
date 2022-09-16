@@ -5,24 +5,30 @@ const { User } = require("../models")
 const bcrypt = require('bcrypt')
 const SALT = 10
 
-// to ensure security the JsonWebToken is imported from ../config/env.json where the entire folder is ignored by
+//To ensure security the JsonWebToken is imported from "../config/env.json" where the entire folder is ignored by
 // github, so when running ensure that config folder has apporpriate files such as the config.json and, now, the env.json
 const {secretJWT} = require('../config/env.json')
+const { Op } = require('sequelize')
 
-//object that could consist of different errors that correspond to the user inputs.
-//we establish error objects before the try-catches so that we can handle specific eorrors at a time
+//Object that could consist of different errors that correspond to the user inputs.
+//We establish error objects before the try-catches so that we can handle specific eorrors at a time
 //  when we have multiple errors when we login or register, there can be mulitple errors, but pinpointing 
 //  the exact type of error and will be easier if we just through an entire object and parse such object at 
 //  the catch statement.
 //*NOTE* We do not handle errors where input fields are empty in the backend, all that tedious inspection
 //  will be handled by methods in the front-end.
+//*NOTE* When storing errors inside this object, each element of this object will a string
 interface ErrorObject {
-    username?: any,
-    email?: any,
-    password?: any,
-    firstName?: any,
-    lastName?: any,
-    birthday?: any
+    username?: string,
+    email?: string,
+    password?: string,
+    firstName?: string,
+    lastName?: string,
+    birthday?: string
+}
+
+interface SearchObject {
+    username?:string,
 }
 
 //Object type for user inputs when registering
@@ -47,21 +53,34 @@ module.exports = {
 
     Query: {
         //when called, supplies every user in the database
-        getUsers: async (_:any, args:any) => {
-            const { username } = args
-            
+        getUsers: async (_:any, __:any, context:any) => {
+
             try {
+                let user:any
 
-                const users = await User.findOne(
-                    { username }
-                )
+                if (context.req && context.req.headers.authorization){
+                    const headerToken:string = context.req.headers.authorization.split("Bearer ")[1]
 
+                    jwt.verify(headerToken, secretJWT, (err:object, decodedToken:any)=> {
+                        if (err) throw new AuthenticationError('Bad Token')
+
+                        user = decodedToken
+                    })
+                }
+
+                //Look for all users
+                const users = await User.findAll({
+                        where: { username: {[Op.ne]: user.username}
+                        }
+                    })
+
+                //return users
                 return users
 
-            } catch {
-                (err: object) => {
-                    console.log(err)
-                }
+            } catch (err:any) {
+                console.log(err)
+                throw err
+                
             }
         },
 
