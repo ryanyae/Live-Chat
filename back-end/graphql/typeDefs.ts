@@ -1,4 +1,4 @@
-import { gql }from 'graphql-tag'
+import { gql } from 'graphql-tag'
 
 module.exports = gql`
     type User{
@@ -19,11 +19,11 @@ module.exports = gql`
 
     type Mutation {
         register (
+            username:String!
+            password:String!
+            email:String!
             firstName:String!
             lastName:String!
-            username:String!
-            email:String!
-            password:String!
             birthday:String!
             gender:String!): 
         User!

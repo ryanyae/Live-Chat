@@ -27,9 +27,7 @@ interface ErrorObject {
     birthday?: string
 }
 
-interface SearchObject {
-    username?:string,
-}
+
 
 //Object type for user inputs when registering
 interface registerObject {
@@ -58,6 +56,7 @@ module.exports = {
             try {
                 let user:any
 
+                
                 if (context.req && context.req.headers.authorization){
                     const headerToken:string = context.req.headers.authorization.split("Bearer ")[1]
 
@@ -92,35 +91,32 @@ module.exports = {
 
             try {
             
-            //look through database for given username
-            const user = await User.findOne({ where: { username } })
+                //look through database for given username
+                const user = await User.findOne({ where: { username } })
 
-            if (!user) {
-                errors.username = 'user not found'
-            }
+                if (!user) {
+                    errors.username = 'user not found'
+                }
 
-            if(Object.keys(errors).length > 0) {
-                throw new UserInputError('user not found', { errors })
-            }
+                if(Object.keys(errors).length > 0) {
+                    throw new UserInputError('user not found', { errors })
+                }
 
-            //authenticate password
-            const passwordVerification = await bcrypt.compare( password, user.password )
+                //authenticate password
+                const passwordVerification = await bcrypt.compare( password, user.password )
 
-            if (!passwordVerification) {
-                errors.password = "incorrect login"    
-                throw new AuthenticationError('wrong password', { errors })
-            }
+                if (!passwordVerification) {
+                    errors.password = "incorrect login"    
+                    throw new AuthenticationError('wrong password', { errors })
+                }
 
-            //after logging in the system will store information within a JWT (jsonWebToken) which will act like a verification
-            user.token = jwt.sign({ username }, secretJWT,{ expiresIn: '1h' });
+                //after logging in the system will store information within a JWT (jsonWebToken) which will act like a verification
+                user.token = jwt.sign({ username }, secretJWT,{ expiresIn: '1h' });
 
-            
-
-            //return user object
-            return user
+                //return user object
+                return (user)
 
             } catch (err) {
-                console.log(err)
                 throw err
             }
         }
@@ -128,9 +124,9 @@ module.exports = {
 
     Mutation: {
         //will register a new user that meet some type or prerequisite 
-        register: async (_: any, args: Object) => {
+        register: async (_: any, args: registerObject) => {
 
-            let { username, password, email, firstName, lastName, birthday, gender }: registerObject = args
+            let { username, password, email, firstName, lastName, birthday, gender } = args
 
             const errors: ErrorObject = {}
 

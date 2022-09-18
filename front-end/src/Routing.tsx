@@ -6,7 +6,7 @@ import Recover from './pages/Recover'
 
 
 
-export default function App() {
+export default function Routing() {
 
     return ( 
         <Routes>
