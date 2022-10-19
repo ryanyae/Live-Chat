@@ -67,13 +67,11 @@ export default function Register() {
                 }
             })
 
-            window.location.href="http://localhost:3000/register"
+            window.location.href="http://localhost:3000/login"
 
         } catch (err) {
             throw err
         }
-
-        
     }
 
 

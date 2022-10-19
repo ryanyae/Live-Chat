@@ -23,12 +23,12 @@ export default function Login() {
         }
     `
     
-    const [loginUser, { loading }] = useLazyQuery(LOGIN_USER, {
+    const [loginUser] = useLazyQuery(LOGIN_USER, {
         fetchPolicy: "network-only",
         onCompleted(data) {
             console.log(data)
-            localStorage.setItem('token', data.login.token)
-            
+            localStorage.setItem('info', JSON.stringify(data.login.token))
+            window.location.href="http://localhost:3000"
         }
     })
 
@@ -36,7 +36,7 @@ export default function Login() {
         e.preventDefault()
 
         try{  
-            const user = await loginUser({ 
+            await loginUser({ 
                 variables: { 
                     username: loginVariable.username, 
                     password:loginVariable.password
@@ -53,8 +53,8 @@ export default function Login() {
                 <div id="loginTitle">Log into Live Chat</div>
                 <input type='text' id='usernameInput' className="loginInputs" placeholder="Username" onChange={(e) =>
                 setLoginVariable({ ...loginVariable, username: e.target.value })}/>
-                <input type='text' id='passwordInput' className="loginInputs" placeholder="Password" onChange={(e) =>
-                setLoginVariable({ ...loginVariable, password: e.target.value })}/>
+                <input type='password' id='passwordInput' className="loginInputs" placeholder="Password" onChange={(e) =>
+                setLoginVariable({ ...loginVariable, password: e.target.value })} />
                 <div id='loginButtonDiv'>
                     <div id="loginButton" onClick={ handleLogin }>
                         <div id="loginButtonTitle">

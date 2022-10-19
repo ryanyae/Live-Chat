@@ -1,4 +1,5 @@
 import { AuthenticationError, UserInputError } from "apollo-server"
+import { Token } from "graphql"
 
 const jwt = require('jsonwebtoken')
 const { User } = require("../models")
@@ -27,8 +28,6 @@ interface ErrorObject {
     birthday?: string
 }
 
-
-
 //Object type for user inputs when registering
 interface registerObject {
     username?: string,
@@ -51,21 +50,17 @@ module.exports = {
 
     Query: {
         //when called, supplies every user in the database
-        getUsers: async (_:any, __:any, context:any) => {
+        getUsers: async (_:any, args:any) => {
+            let { username } = args
 
             try {
                 let user:any
 
-                
-                if (context.req && context.req.headers.authorization){
-                    const headerToken:string = context.req.headers.authorization.split("Bearer ")[1]
+                jwt.verify(username, secretJWT, (err:object, decodedToken:any)=> {
+                    if (err) throw new AuthenticationError('Bad Token')
 
-                    jwt.verify(headerToken, secretJWT, (err:object, decodedToken:any)=> {
-                        if (err) throw new AuthenticationError('Bad Token')
-
-                        user = decodedToken
-                    })
-                }
+                    user = decodedToken
+                })
 
                 //Look for all users
                 const users = await User.findAll({
@@ -107,7 +102,7 @@ module.exports = {
 
                 if (!passwordVerification) {
                     errors.password = "incorrect login"    
-                    throw new AuthenticationError('wrong password', { errors })
+                    throw new UserInputError('wrong password', { errors })
                 }
 
                 //after logging in the system will store information within a JWT (jsonWebToken) which will act like a verification
@@ -118,6 +113,36 @@ module.exports = {
 
             } catch (err) {
                 throw err
+            }
+        },
+
+        getUser: async (_:any, args:object) => {
+            let errors:ErrorObject = {}
+
+            const { username }:any = args
+
+            try {
+
+                var user = await User.findOne({
+                        where: { username }
+                })
+
+                jwt.verify(user, secretJWT, (err:object, decodedToken:any)=> {
+                    if (err) throw new AuthenticationError('Bad Token')
+
+                    user = decodedToken
+                })
+
+                if (!user) {
+                    return new AuthenticationError("User not found")
+                }
+
+                //return users
+                return user
+
+            } catch (err:any) {
+                throw err
+                
             }
         }
     },
