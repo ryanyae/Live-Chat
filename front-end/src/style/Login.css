@@ -3,6 +3,14 @@
     margin:auto;
 }
 
+@keyframes tilt-shaking {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(5deg); }
+    50% { transform: rotate(0eg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+  }
+
 #loginContainer{
     height: fit-content;
     text-align: center;
@@ -96,3 +104,12 @@
     padding: 0.8em 0em 0em 0em;
     font-family: 'Silkscreen';
 }
+
+.errorMessage {
+    padding-bottom: 0.8em;
+    color: red;
+    display: none;
+    font-family: 'Silkscreen';
+    animation: tilt-shaking 0.35s;
+}
+

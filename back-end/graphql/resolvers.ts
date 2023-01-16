@@ -8,7 +8,7 @@ const SALT = 10
 
 //To ensure security the JsonWebToken is imported from "../config/env.json" where the entire folder is ignored by
 // github, so when running ensure that config folder has apporpriate files such as the config.json and, now, the env.json
-const {secretJWT} = require('../config/env.json')
+const { secretJWT } = require('../config/env.json')
 const { Op } = require('sequelize')
 
 //Object that could consist of different errors that correspond to the user inputs.
@@ -50,11 +50,11 @@ module.exports = {
 
     Query: {
         //when called, supplies every user in the database
-        getUsers: async (_:any, args:any) => {
+        getUsers: async (_: any, args: any) => {
             let { username } = args
 
             try {
-                let user:any
+                let user: any
 
                 //Look for all users
                 const users = await User.findAll()
@@ -62,19 +62,19 @@ module.exports = {
                 //return users
                 return users
 
-            } catch (err:any) {
+            } catch (err: any) {
                 throw err
             }
         },
 
         //when called, authenticates users when given username and password input
-        login: async (_:any, args:Object) => {
-            let errors:ErrorObject = {}
+        login: async (_: any, args: Object) => {
+            let errors: ErrorObject = {}
 
-            let { username, password }:loginObject = args
+            let { username, password }: loginObject = args
 
             try {
-            
+
                 //look through database for given username
                 const user = await User.findOne({ where: { username } })
 
@@ -84,15 +84,15 @@ module.exports = {
                     errors.username = 'user not found'
                 }
 
-                if(Object.keys(errors).length > 0) {
+                if (Object.keys(errors).length > 0) {
                     throw new UserInputError('user not found', { errors })
                 }
 
                 //authenticate password
-                const passwordVerification = await bcrypt.compare( password, user.password )
+                const passwordVerification = await bcrypt.compare(password, user.password)
 
                 if (!passwordVerification) {
-                    errors.password = "incorrect login"    
+                    errors.password = "incorrect login"
                     throw new UserInputError('wrong password', { errors })
                 }
 
@@ -104,19 +104,24 @@ module.exports = {
 
             } catch (err) {
                 console.log("failed")
+                throw err
             }
         },
 
-        getUser: async (_:any, args:object) => {
-            let errors:ErrorObject = {}
+        getUser: async (_: any, args: object) => {
+            let errors: ErrorObject = {}
 
-            const { username }:any = args
+            const { username }: any = args
 
             try {
 
                 var user = await User.findOne({
-                        where: { username }
+                    where: { username }
                 })
+
+                if (!user) {
+                    console.log("hello im an error")
+                }
 
                 // jwt.verify(user, secretJWT, (err:object, decodedToken:any)=> {
                 //     if (err) throw new AuthenticationError('Bad Token')
@@ -124,14 +129,14 @@ module.exports = {
                 //     user = decodedToken
                 // })
 
-                if (!user) {
-                    return new AuthenticationError("User not found")
-                }
+                // if (!user) 
+                //     return new AuthenticationError("User not found")
+                // }
 
-                //return users
+                // return users
                 return user
 
-            } catch (err:any) {
+            } catch (err: any) {
                 throw err
             }
         }
@@ -147,10 +152,10 @@ module.exports = {
 
             try {
 
-            //hash password
+                //hash password
                 password = await bcrypt.hash(password, SALT);
 
-            //create the user
+                //create the user
                 const newUser = await User.create({
                     username,
                     password,
@@ -161,23 +166,23 @@ module.exports = {
                     gender
                 })
 
-            //return the newly created user
+                //return the newly created user
                 return newUser
 
-            } catch (err:any) {
+            } catch (err: any) {
 
                 if (err.name === 'SequelizeUniqueConstraintError') {
-                    err.errors.forEach((element:any) => {
-                    //creating message of errors for anything inside the errors object
+                    err.errors.forEach((element: any) => {
+                        //creating message of errors for anything inside the errors object
                         // handles only one error at a time because the try catch will throw something 
                         // right when the first sequelize duplicate error
                         console.log(typeof element)
                         errors[element.path as keyof typeof errors] = `${element.path} is already taken`
                     });
                 }
-                
+
                 // throws a new error with appropriate errors
-                throw new UserInputError('Bad Input', {errors})
+                throw new UserInputError('Bad Input', { errors })
             }
         }
     },
