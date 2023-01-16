@@ -56,25 +56,14 @@ module.exports = {
             try {
                 let user:any
 
-                jwt.verify(username, secretJWT, (err:object, decodedToken:any)=> {
-                    if (err) throw new AuthenticationError('Bad Token')
-
-                    user = decodedToken
-                })
-
                 //Look for all users
-                const users = await User.findAll({
-                        where: { username: {[Op.ne]: user.username}
-                        }
-                    })
+                const users = await User.findAll()
 
                 //return users
                 return users
 
             } catch (err:any) {
-                console.log(err)
                 throw err
-                
             }
         },
 
@@ -88,6 +77,8 @@ module.exports = {
             
                 //look through database for given username
                 const user = await User.findOne({ where: { username } })
+
+                console.log(user)
 
                 if (!user) {
                     errors.username = 'user not found'
@@ -106,13 +97,13 @@ module.exports = {
                 }
 
                 //after logging in the system will store information within a JWT (jsonWebToken) which will act like a verification
-                user.token = jwt.sign({ username }, secretJWT,{ expiresIn: '1h' });
+                // user.token = jwt.sign({ username }, secretJWT,{ expiresIn: '1h' });
 
                 //return user object
                 return (user)
 
             } catch (err) {
-                throw err
+                console.log("failed")
             }
         },
 
@@ -127,11 +118,11 @@ module.exports = {
                         where: { username }
                 })
 
-                jwt.verify(user, secretJWT, (err:object, decodedToken:any)=> {
-                    if (err) throw new AuthenticationError('Bad Token')
+                // jwt.verify(user, secretJWT, (err:object, decodedToken:any)=> {
+                //     if (err) throw new AuthenticationError('Bad Token')
 
-                    user = decodedToken
-                })
+                //     user = decodedToken
+                // })
 
                 if (!user) {
                     return new AuthenticationError("User not found")
@@ -142,7 +133,6 @@ module.exports = {
 
             } catch (err:any) {
                 throw err
-                
             }
         }
     },

@@ -27,8 +27,8 @@ export default function Login() {
         fetchPolicy: "network-only",
         onCompleted(data) {
             console.log(data)
-            localStorage.setItem('info', JSON.stringify(data.login.token))
-            window.location.href="http://localhost:3000"
+            localStorage.setItem('info', data.login.username)
+            // window.location.href="http://localhost:3000/home"
         }
     })
 
@@ -39,7 +39,7 @@ export default function Login() {
             await loginUser({ 
                 variables: { 
                     username: loginVariable.username, 
-                    password:loginVariable.password
+                    password: loginVariable.password
             }})
     } catch (err) {
         throw err
