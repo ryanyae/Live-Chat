@@ -56,7 +56,6 @@ export default function Login() {
 
     const setLEDisplayF = () => {
         if (!loginErrorHTMLDiv.current) {
-
             return
         }
 
@@ -65,7 +64,6 @@ export default function Login() {
 
     const setLEDisplayT = () => {
         if (!loginErrorHTMLDiv.current) {
-
             return
         }
 
