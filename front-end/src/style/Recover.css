@@ -1,0 +1,22 @@
+.generalDiv {
+    border: 3px solid black;
+    height: fit-content;
+    margin:auto;
+}
+
+#titlePanel {
+    width: 75%;
+    margin: auto;
+    font-size: 25px;
+    font-family: 'Silkscreen';
+    padding-bottom: .6em;
+    border-bottom: 1px solid black;
+    user-select: none;
+    text-align: center;
+}
+
+.recoverInputDiv {
+    margin: auto;
+    display: flex;
+    align-items: center; 
+}

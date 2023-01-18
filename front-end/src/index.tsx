@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import {BrowserRouter as Router } from 'react-router-dom';
 import Routing from './Routing';
 import './style/Login.css';
-import './style/Home.css';
 import './style/Register.css';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 

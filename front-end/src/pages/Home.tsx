@@ -1,13 +1,15 @@
 import { gql, useLazyQuery } from '@apollo/client';
-import { verify } from 'crypto';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import SeeFriends from "../messaging/seeFriends";
 import SeeMessages from "../messaging/seeMessages";
+import '../style/Home.css';
 
 
 export default function Home() {
-    var localStorageCookie = localStorage.getItem('info')
-    
+    interface LocalStorage {
+        item: string
+    }
+
     const GET_USER = gql`
         query getUser($username:String!){
             getUser(username:$username) {
@@ -17,23 +19,33 @@ export default function Home() {
 
     const [checkUser] = useLazyQuery(GET_USER)
 
+    var localStorageCookie = localStorage.getItem('info')
+
+    const [localStorageItem, setLocalItem] = useState<LocalStorage>({
+        item: ""
+    })
+
     useEffect(() => {
-        try {
-            verifyUser()
-            
-        } catch (error) {
-            console.log("failed verification in the front end")
-        }
-    }, [localStorageCookie])
+        verifyUser()
+    }, [localStorageItem])
+
+    useEffect(() => {
+        window.addEventListener('storage', () => {
+
+            // When local storage changes, dump the list to
+            // the console.
+            if (!localStorageCookie) return
+            setLocalItem({ item: localStorageCookie })
+        })
+    }, [])
 
     const verifyUser = async () => {
         try {
-            const itemValue = localStorage.getItem('info')
-            if (!itemValue) {
+            if (!localStorageCookie) {
                 throw new Error("Bad cookie")
             }
 
-            const verifyDecoded = await checkUser({ variables: {username: itemValue}})
+            const verifyDecoded = await checkUser({ variables: { username: localStorageCookie } })
 
             if (!verifyDecoded.data) {
                 throw new Error("Bad Verfication")
@@ -47,8 +59,8 @@ export default function Home() {
     return (
         <>
             <div id='homeDiv'>
-                <SeeFriends/>
-                <SeeMessages/>
+                <SeeFriends />
+                <SeeMessages />
             </div>
         </>
     )

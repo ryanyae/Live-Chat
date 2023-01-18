@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import React, { useState } from 'react'
 import { gql, useLazyQuery } from '@apollo/client'
 
+
 export default function Login() {
 
     const loginErrorHTMLDiv = React.useRef<HTMLInputElement>(null)
@@ -28,7 +29,7 @@ export default function Login() {
         fetchPolicy: "network-only",
         onCompleted(data) {
             localStorage.setItem('info', data.login.username)
-            window.location.href = "http://localhost:3000/home"
+            window.location.href = "http://localhost:3000/"
         }
     })
 
