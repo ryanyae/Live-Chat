@@ -23,8 +23,8 @@ interface ErrorObject {
     username?: string,
     email?: string,
     password?: string,
-    firstName?: string,
-    lastName?: string,
+    firstname?: string,
+    lastname?: string,
     birthday?: string
 }
 
@@ -33,8 +33,8 @@ interface registerObject {
     username?: string,
     password?: string,
     email?: string,
-    firstName?: string,
-    lastName?: string,
+    firstname?: string,
+    lastname?: string,
     birthday?: string,
     gender?: string
 }
@@ -51,11 +51,8 @@ module.exports = {
     Query: {
         //when called, supplies every user in the database
         getUsers: async (_: any, args: any) => {
-            let { username } = args
 
             try {
-                let user: any
-
                 //Look for all users
                 const users = await User.findAll()
 
@@ -78,6 +75,9 @@ module.exports = {
                 //look through database for given username
                 const user = await User.findOne({ where: { username } })
 
+                //authenticate password
+                const passwordVerification = await bcrypt.compare(password, user.password)
+
                 console.log(user)
 
                 if (!user) {
@@ -88,8 +88,10 @@ module.exports = {
                     throw new UserInputError('user not found', { errors })
                 }
 
-                //authenticate password
-                const passwordVerification = await bcrypt.compare(password, user.password)
+                // if (user.password !== password) {
+                //     throw new UserInputError('Bad password', { errors })
+                // }
+
 
                 if (!passwordVerification) {
                     errors.password = "incorrect login"
@@ -100,7 +102,7 @@ module.exports = {
                 // user.token = jwt.sign({ username }, secretJWT,{ expiresIn: '1h' });
 
                 //return user object
-                return (user)
+                return ([user.username, user.password])
 
             } catch (err) {
                 console.log("failed")
@@ -120,7 +122,8 @@ module.exports = {
                 })
 
                 if (!user) {
-                    console.log("hello im an error")
+                    errors.username = "Bad Cookie"
+                    throw errors;
                 }
 
                 // jwt.verify(user, secretJWT, (err:object, decodedToken:any)=> {
@@ -146,7 +149,7 @@ module.exports = {
         //will register a new user that meet some type or prerequisite 
         register: async (_: any, args: registerObject) => {
 
-            let { username, password, email, firstName, lastName, birthday, gender } = args
+            let { username, password, email, firstname, lastname, birthday, gender } = args
 
             const errors: ErrorObject = {}
 
@@ -160,8 +163,8 @@ module.exports = {
                     username,
                     password,
                     email,
-                    firstName,
-                    lastName,
+                    firstname,
+                    lastname,
                     birthday,
                     gender
                 })

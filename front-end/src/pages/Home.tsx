@@ -7,7 +7,7 @@ import '../style/Home.css';
 
 export default function Home() {
     interface LocalStorage {
-        item: string
+        item: string | null
     }
 
     const GET_USER = gql`
@@ -21,35 +21,42 @@ export default function Home() {
 
     var localStorageCookie = localStorage.getItem('info')
 
-    const [localStorageItem, setLocalItem] = useState<LocalStorage>({
-        item: ""
-    })
-
-    useEffect(() => {
-        verifyUser()
-    }, [localStorageItem])
-
+    const [localStorageItem, setLocalItem] = useState<LocalStorage>({item:localStorageCookie})
+    
     useEffect(() => {
         window.addEventListener('storage', () => {
 
             // When local storage changes, dump the list to
             // the console.
             if (!localStorageCookie) return
-            setLocalItem({ item: localStorageCookie })
+            setLocalItem({item:localStorageCookie})
         })
     }, [])
 
+    useEffect(() => {
+        verifyUser()
+    }, [localStorageItem])
+
     const verifyUser = async () => {
         try {
-            if (!localStorageCookie) {
+            console.log(localStorageItem)
+            if (!localStorageItem.item) {
                 throw new Error("Bad cookie")
             }
 
-            const verifyDecoded = await checkUser({ variables: { username: localStorageCookie } })
-
+            const verifyDecoded = await checkUser({ variables: { username: localStorageItem } })
+            
             if (!verifyDecoded.data) {
                 throw new Error("Bad Verfication")
             }
+            
+
+            /* 
+                You actually want to store the local storage item with the title of the user's username
+                and than use the password as the value inside that localstorage.
+
+                This makes the authentication system more secure as there are 2 layers of verification
+            */
 
         } catch (error) {
             window.location.href = "http://localhost:3000/login"

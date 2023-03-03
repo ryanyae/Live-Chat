@@ -2,8 +2,8 @@ import { gql } from 'graphql-tag'
 
 module.exports = gql`
     type User{
-        firstName:String!
-        lastName: String!
+        firstname:String!
+        lastname: String!
         username:String!
         email:String!
         password:String!
@@ -22,8 +22,8 @@ module.exports = gql`
             username:String!
             password:String!
             email:String!
-            firstName:String!
-            lastName:String!
+            firstname:String!
+            lastname:String!
             birthday:String!
             gender:String!): 
         User!

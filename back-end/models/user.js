@@ -29,12 +29,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       unique: false,
     },
-    firstName: {
+    firstname: {
       type: DataTypes.STRING,
       unique: false,
       allowNull: false,
     },
-    lastName: {
+    lastname: {
       type: DataTypes.STRING,
       unique: false,
       allowNull: false,
@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'User',
-    tableName: 'users',
+    tableName: 'userdata',
   });
   return User;
 };

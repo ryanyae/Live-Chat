@@ -19,7 +19,7 @@ const client = new ApolloClient({
 root.render(
   <ApolloProvider client = { client }>
     <React.StrictMode>
-    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet"></link>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen&display=swap" rel="stylesheet" />
     <Router>
       <Routing />
     </Router>
