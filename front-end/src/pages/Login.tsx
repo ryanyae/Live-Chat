@@ -28,28 +28,33 @@ export default function Login() {
     const [loginUser] = useLazyQuery(LOGIN_USER, {
         fetchPolicy: "network-only",
         onCompleted(data) {
+            console.log(data)
             localStorage.setItem('info', data.login.username)
             window.location.href = "http://localhost:3000/"
         }
     })
 
     const handleLogin = async (e: any) => {
-        e.preventDefault()
+        // e.preventDefault()
         try {
             console.log(loginVariable.username)
-            if (localStorage.getItem("item")) {
-                localStorage.removeItem("item")
-            }
+            console.log(loginVariable.password)
+
             var token = await loginUser({
                 variables: {
                     username: loginVariable.username,
                     password: loginVariable.password
                 }
             })
+
+            console.log(token)
+
             if (!token.data) {
                 throw new Error()
             }
+
         } catch (err) {
+            console.log(err)
             setLEDisplayT()
         }
 

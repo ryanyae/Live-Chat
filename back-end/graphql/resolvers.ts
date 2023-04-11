@@ -70,6 +70,8 @@ module.exports = {
 
             let { username, password }: loginObject = args
 
+            // console.log(username + " " + password)
+
             try {
 
                 //look through database for given username
@@ -77,8 +79,6 @@ module.exports = {
 
                 //authenticate password
                 const passwordVerification = await bcrypt.compare(password, user.password)
-
-                console.log(user)
 
                 if (!user) {
                     errors.username = 'user not found'
@@ -92,7 +92,6 @@ module.exports = {
                 //     throw new UserInputError('Bad password', { errors })
                 // }
 
-
                 if (!passwordVerification) {
                     errors.password = "incorrect login"
                     throw new UserInputError('wrong password', { errors })
@@ -100,9 +99,11 @@ module.exports = {
 
                 //after logging in the system will store information within a JWT (jsonWebToken) which will act like a verification
                 // user.token = jwt.sign({ username }, secretJWT,{ expiresIn: '1h' });
-
                 //return user object
-                return ([user.username, user.password])
+
+                console.log(user.id)
+
+                return (user)
 
             } catch (err) {
                 console.log("failed")

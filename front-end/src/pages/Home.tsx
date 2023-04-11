@@ -17,7 +17,12 @@ export default function Home() {
             }
     }`
 
-    const [checkUser] = useLazyQuery(GET_USER)
+    const [checkUser] = useLazyQuery(GET_USER, {
+        fetchPolicy: "network-only",
+        onCompleted(data) {
+            console.log("good!")
+        }
+    })
 
     var localStorageCookie = localStorage.getItem('info')
 
@@ -39,12 +44,14 @@ export default function Home() {
 
     const verifyUser = async () => {
         try {
-            console.log(localStorageItem)
+            // console.log(localStorageItem)
             if (!localStorageItem.item) {
                 throw new Error("Bad cookie")
             }
 
-            const verifyDecoded = await checkUser({ variables: { username: localStorageItem } })
+            const verifyDecoded = await checkUser({ variables: { username: localStorageItem.item } })
+
+            console.log(verifyDecoded.data.getUser.username)
             
             if (!verifyDecoded.data) {
                 throw new Error("Bad Verfication")
@@ -60,6 +67,7 @@ export default function Home() {
 
         } catch (error) {
             window.location.href = "http://localhost:3000/login"
+            // console.log(error)
         }
     }
 
